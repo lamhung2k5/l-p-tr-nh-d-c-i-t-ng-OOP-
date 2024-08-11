@@ -1,0 +1,132 @@
+1. Hãy xây dựng lớp DaGiac gồm có các thuộc tính
+- Số cạnh của đa giác
+- Mảng các số nguyên chứa kích thước các cạnh của đa giác
+Các phương thức:
+- Tính chu vi
+- In giá trị các cạnh của đa giác.
+2. Xây dựng lớp TamGiac kế thừa từ lớp DaGiac, trong đó viết đè các hàm tính chu vi và xây dựng thêm phương thức kiểm tra tính hợp lệ 3 cạnh của tam giác, tính diện tích tam giác
+3. Xây dựng một ứng dụng Java để nhập vào một dãy gồm n tam giác rồi in ra màn hình các cạnh của các tam giác có diện tích lớn nhất.
+Gợi ý: 3 cạnh tam giác là hợp lệ nếu tổng hai cạnh bất kỳ lớn hơn cạnh còn lại. Diện tích tam giác tính theo công thức heron
+
+
+file DaGiac:
+
+
+public class DaGiac{
+	
+	protected int soCanh;
+	protected int[] kichThuoc;
+	
+	public DaGiac() {
+		this.soCanh = 0;
+		this.kichThuoc = new int[soCanh];
+	}
+	
+	public DaGiac(int soCanh, int[] kichThuoc) {
+		this.soCanh = soCanh;
+		this.kichThuoc = kichThuoc;
+	}
+	
+	public int tinhChuVi() {
+		int chuVi = 0;
+		for(int i = 0; i < this.soCanh; i++) {
+			chuVi += kichThuoc[i];
+		}
+		return chuVi;
+	}
+
+	public void hienThi() {
+		for(int i = 0; i < this.soCanh; i++) {
+			System.out.println("canh " + (i+1) + ": " + this.kichThuoc[i]);
+		}
+	}
+	
+	
+}
+
+file TamGiac:
+import java.util.Scanner;
+
+public class TamGiac extends DaGiac{
+	//thuoc tinh
+	static Scanner scan = new Scanner(System.in);
+	//phuong thuc
+	public TamGiac() {
+		super(3, new int[3]);
+	}
+	
+	public int tinhChuVi() {
+		int chuVi = 0;
+		for(int i = 0; i < this.soCanh; i++) {
+			chuVi += kichThuoc[i];
+		}
+		return chuVi;
+	}
+	
+	public double tinhDienTich() {
+		double p = (double) tinhChuVi() / 2;
+		return Math.sqrt(p * (p - kichThuoc[0]) * (p - kichThuoc[1]) * (p - kichThuoc[2]));
+	}
+	
+	public boolean kiemTG() {
+		int a = kichThuoc[0];
+		int b = kichThuoc[1];
+		int c = kichThuoc[2];
+		
+		return ((a+b>c) && (a+c>b) && (b+c>a));
+	}
+	
+	public void nhap(TamGiac tg) {
+		for(int i = 0; i < this.soCanh; i++) {
+			System.out.println("nhap canh thu" + (i + 1) +": ");
+			kichThuoc[i] = scan.nextInt();
+		}
+	}
+}
+
+file test:
+import java.util.*;
+
+public class text{
+	
+	static Scanner scan = new Scanner(System.in);
+	static ArrayList<TamGiac> ds;
+	
+	static void nhap(TamGiac tg) {
+		System.out.println("nhap so tam giac: ");
+		int n = scan.nextInt();
+		ds = new ArrayList<TamGiac>(n);
+		for(int i = 0; i < n; i++) {
+			tg = new TamGiac();
+			System.out.println("nhap tam giac " + (i+1) + ":");
+			tg.nhap(tg);
+			ds.add(tg);
+		}
+		
+	}
+	
+	static void xuat() {
+		int i = 1;
+		for(TamGiac t : ds) {
+			System.out.println("tam giac thu " + (i++) + ":");
+			t.hienThi();
+		}
+	}
+	
+	static void timDTMax() {
+		double max = ds.get(0).tinhDienTich();
+		for(TamGiac t : ds) {
+			if(max < t.tinhDienTich()) {
+				max = t.tinhDienTich();
+			}
+		}
+		System.out.println("dien tich lon nhat: " + max);
+	}
+	
+	public static void main(String[] args) {
+		TamGiac tg = new TamGiac();
+		nhap(tg);
+		xuat();
+		timDTMax();
+	}
+}
