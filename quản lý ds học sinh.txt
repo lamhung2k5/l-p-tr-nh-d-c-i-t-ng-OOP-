@@ -1,0 +1,152 @@
+Viết chương trình cho phép nhập vào danh sách học sinh (mã học sinh, tên học sinh, địa chỉ, điểm toán, điểm văn), tìm học sinh có điểm trung bình cao nhất trong danh sách.
+
+HocSinh.java
+import java.util.*;
+
+public class HocSinh {
+	//thuoc tinh
+	protected int MSSV;
+	protected String ten;
+	protected String diaChi;
+	protected double diemToan;
+	protected double diemVan;
+	Scanner scan = new Scanner(System.in);
+	
+	//ham khoi tao khong doi so
+	public HocSinh() {
+		
+	}
+	
+	//ham khoi tao co doi so
+	public HocSinh(int MSSV, String ten, String diaChi, double diemToan, double diemVan) {
+		this.MSSV = MSSV;
+		this.ten = ten;
+		this.diaChi = diaChi;
+		this.diemToan = diemToan;
+		this.diemVan = diemVan;
+	}
+	
+	public int getMSSV() {
+		return this.MSSV;
+	}
+	
+	public void setMSSV(int MSSV) {
+		this.MSSV = MSSV;
+	}
+	
+	public String getTen() {
+		return this.ten;
+	}
+
+	public String getDiaChi() {
+		return diaChi;
+	}
+
+	public void setDiaChi(String diaChi) {
+		this.diaChi = diaChi;
+	}
+
+	public double getDiemToan() {
+		return diemToan;
+	}
+
+	public void setDiemToan(double diemToan) {
+		this.diemToan = diemToan;
+	}
+
+	public double getDiemVan() {
+		return diemVan;
+	}
+
+	public void setDiemVan(double diemVan) {
+		this.diemVan = diemVan;
+	}
+
+	public void setTen(String ten) {
+		this.ten = ten;
+	}
+	
+	public double diemTB() {
+		return (this.diemToan + this.diemVan) / 2;
+	}
+	
+	public void nhap() {
+		System.out.println("nhap MSSV: ");
+		this.MSSV = scan.nextInt();
+		
+		scan.nextLine();
+		
+		System.out.println("nhap ten: ");
+		this.ten = scan.nextLine();
+		
+		System.out.println("nhap dia chi: ");
+		this.diaChi = scan.nextLine();
+		
+		System.out.println("nhap diem mon toan: ");
+		this.diemToan = scan.nextDouble();
+		
+		System.out.println("nhap diem mon van: ");
+		this.diemVan = scan.nextDouble();
+		
+		scan.nextLine();
+	}
+	
+	public void xuat() {
+		System.out.println("mssv: " + this.MSSV);
+		System.out.println("ho ten: " + this.ten);
+		System.out.println("dia chi: " + this.diaChi);
+		System.out.println("diem van: " + this.diemVan);
+		System.out.println("diem toan: " + this.diemToan);
+		System.out.println("diem tb: " + diemTB());
+	}
+}
+
+
+DsHocSinh.java dung để quản lý danh sách học sinh
+import java.util.*;
+
+public class DsHocSinh extends HocSinh{
+	
+	private Scanner scan = new Scanner(System.in);
+	private ArrayList<HocSinh> ds;
+	
+	public DsHocSinh(){
+		this.ds = new ArrayList<HocSinh>(0);
+	}
+	
+	public void addHocSinh() {
+		int n;
+		System.out.println("nhap so luong hoc sinh: ");
+		n = scan.nextInt();
+		ds = new ArrayList<HocSinh>(n);
+		
+		for(int i = 0; i < n; i++) {
+			System.out.println("nhap hoc sinh thu " + (i+1) + ": ");
+			HocSinh hs = new HocSinh();
+			hs.nhap();
+			ds.add(hs);
+		}
+	}
+	
+	public void xuat() {
+		int i = 1;
+		for(HocSinh hs : ds) {
+			System.out.println("hoc sinh " + (i++) +": ");
+			hs.xuat();
+		}
+	}
+}
+
+lớp test
+
+public class TestHocSinh {
+	public static void main(String[] agrs) {
+		DsHocSinh ds = new DsHocSinh();
+		
+		ds.addHocSinh();
+		ds.xuat();
+	}
+}
+
+
+
